@@ -8,7 +8,7 @@ st.set_page_config(page_title="Bad Dashboard", layout="wide")
 st.title("Bad Looking SuperStore Dashboard")
 
 # Load dataset from the data folder (ensure the file is here)
-df = pd.read_excel("Sample - Superstore.xlsx")
+df = pd.read_excel("data/Sample - Superstore.xlsx")
 
 # -------- One Filter: Region --------
 regions = df["Region"].unique().tolist()
@@ -52,11 +52,12 @@ if "Order Date" in df.columns:
 else:
     st.write("Order Date column not found.")
 
-# -------- Chart 4: Pie Chart --------
-# Pie chart of Profit by Sub-Category with very bright colors
-profit_subcat = df.groupby("Sub-Category")["Profit"].sum()
+# -------- Chart 4: Bar Chart for Profit by Sub-Category --------
+# Replaces the pie chart to avoid negative wedge size issues
+profit_subcat = df.groupby("Sub-Category")["Profit"].sum().reset_index()
 fig4, ax4 = plt.subplots()
-pie_colors = ["#FF6347", "#ADFF2F", "#1E90FF", "#FFD700", "#FF69B4", "#00FA9A", "#BA55D3", "#FF8C00"]
-ax4.pie(profit_subcat, labels=profit_subcat.index, autopct="%1.1f%%", colors=pie_colors[:len(profit_subcat)])
+ax4.barh(profit_subcat["Sub-Category"], profit_subcat["Profit"], color="#FF6347")
 ax4.set_title("Profit by Sub-Category", color="#FF1493", fontsize=14)
+ax4.set_xlabel("Profit", color="#FF1493")
+ax4.set_ylabel("Sub-Category", color="#FF1493")
 st.pyplot(fig4)

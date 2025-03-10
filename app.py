@@ -8,7 +8,7 @@ st.set_page_config(page_title="Bad Dashboard", layout="wide")
 st.title("Bad Looking SuperStore Dashboard")
 
 # Load dataset from the data folder (ensure the file is here)
-df = pd.read_excel("data/Sample - Superstore.xlsx")
+df = pd.read_excel("Sample - Superstore.xlsx")
 
 # -------- One Filter: Region --------
 regions = df["Region"].unique().tolist()
